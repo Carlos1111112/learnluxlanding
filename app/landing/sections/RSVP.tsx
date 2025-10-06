@@ -66,7 +66,7 @@ export default function RSVP() {
   };
 
   return (
-    <section className="pt-0 pb-12 sm:pb-16 md:pb-20 relative">
+    <section id="next-section" className="pt-24 pb-12 sm:pb-16 md:pb-20 relative">
       <div className="container-px mx-auto">
         <div className="max-w-7xl mx-auto">
           {/* Two column layout with improved grid */}

@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import dynamic from "next/dynamic";
 import { hyperspeedPresets } from "@/app/components/Hyperspeed";
+import { ChevronDown } from "lucide-react";
 
 const Hyperspeed = dynamic(() => import("@/app/components/Hyperspeed"), {
   ssr: false,
@@ -122,6 +123,27 @@ export default function Hero() {
                 </svg>
                 <span>3x faster learning</span>
               </div>
+            </motion.div>
+
+            {/* Scroll Down Arrow */}
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.8 }}
+              className="mt-40 flex justify-center w-full"
+            >
+              <button
+                onClick={() => document.getElementById('next-section')?.scrollIntoView({ behavior: 'smooth' })}
+                className="flex flex-col items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors duration-300 group px-8 py-1 cursor-pointer"
+                aria-label="Scroll to next section"
+              >
+                <span className="text-sm font-medium text-white/50 group-hover:text-white/70 transition-colors">
+                  Scroll to explore
+                </span>
+                <div className="animate-bounce">
+                  <ChevronDown className="w-10 h-10" strokeWidth={2.5} />
+                </div>
+              </button>
             </motion.div>
           </div>
         </div>
