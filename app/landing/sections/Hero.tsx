@@ -103,7 +103,7 @@ export default function Hero() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.7, delay: 0.6 }}
-              className="mt-12 flex flex-wrap items-center justify-center gap-8 text-sm text-white/50"
+              className="mt-40 flex flex-wrap items-center justify-center gap-8 text-sm text-white/50"
             >
               <div className="flex items-center gap-2">
                 <svg className="w-5 h-5 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
@@ -130,7 +130,7 @@ export default function Hero() {
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.8 }}
-              className="mt-40 flex justify-center w-full"
+              className="mt-20 flex justify-center w-full"
             >
               <button
                 onClick={() => document.getElementById('next-section')?.scrollIntoView({ behavior: 'smooth' })}
