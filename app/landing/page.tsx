@@ -5,6 +5,7 @@ import Features from "./sections/Features";
 import HowItWorks from "./sections/HowItWorks";
 import Enterprise from "./sections/Enterprise";
 import CTA from "./sections/CTA";
+import Contact from "./sections/Contact";
 import Footer from "./sections/Footer";
 import Trust from "./sections/Trust";
 
@@ -20,6 +21,7 @@ export default function LandingPage() {
         <Enterprise />
         <Trust />
         <CTA />
+        <Contact />
       </main>
       <Footer />
     </div>

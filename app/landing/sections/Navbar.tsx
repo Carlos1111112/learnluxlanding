@@ -23,6 +23,17 @@ export default function Navbar() {
             <Link href="#features" className="hover:text-white transition-colors">Features</Link>
             <Link href="#enterprise" className="hover:text-white transition-colors">Enterprise</Link>
             <Link href="#api" className="hover:text-white transition-colors">API</Link>
+            <button
+              onClick={() => {
+                const contactSection = document.getElementById("contact");
+                if (contactSection) {
+                  contactSection.scrollIntoView({ behavior: "smooth" });
+                }
+              }}
+              className="hover:text-white transition-colors cursor-pointer bg-transparent border-0 p-0"
+            >
+              Contact
+            </button>
             <Link href="/" className="hover:text-white transition-colors">Sign In</Link>
             <button
               onClick={() => (window.location.href = "https://learnlux.org")}
