@@ -1,9 +1,9 @@
-import { useEffect, useRef, FC } from 'react';
+import { useEffect, useRef, FC, useMemo } from 'react';
 import * as THREE from 'three';
 import { BloomEffect, EffectComposer, EffectPass, RenderPass, SMAAEffect, SMAAPreset } from 'postprocessing';
 
 interface Distortion {
-  uniforms: Record<string, { value: any }>;
+  uniforms: Record<string, { value: unknown }>;
   getDistortion: string;
   getJS?: (progress: number, time: number) => THREE.Vector3;
 }
@@ -55,6 +55,16 @@ interface HyperspeedOptions {
 
 interface HyperspeedProps {
   effectOptions?: Partial<HyperspeedOptions>;
+}
+
+interface SMAAAssets {
+  search?: HTMLImageElement;
+  area?: HTMLImageElement;
+}
+
+interface AppAssets {
+  smaa?: SMAAAssets;
+  [key: string]: unknown;
 }
 
 const defaultOptions: HyperspeedOptions = {
@@ -456,7 +466,9 @@ class CarLights {
     const curve = new THREE.LineCurve3(new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, -1));
     const geometry = new THREE.TubeGeometry(curve, 40, 1, 8, false);
 
-    const instanced = new THREE.InstancedBufferGeometry().copy(geometry as any) as THREE.InstancedBufferGeometry;
+    const instanced = new THREE.InstancedBufferGeometry();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    instanced.copy(geometry as any);
     instanced.instanceCount = options.lightPairsPerRoadWay * 2;
 
     const laneWidth = options.roadWidth / options.lanesPerRoad;
@@ -614,7 +626,9 @@ class LightsSticks {
   init() {
     const options = this.options;
     const geometry = new THREE.PlaneGeometry(1, 1);
-    const instanced = new THREE.InstancedBufferGeometry().copy(geometry as any) as THREE.InstancedBufferGeometry;
+    const instanced = new THREE.InstancedBufferGeometry();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    instanced.copy(geometry as any);
     const totalSticks = options.totalSideLightSticks;
     instanced.instanceCount = totalSticks;
 
@@ -758,7 +772,7 @@ class Road {
       segments
     );
 
-    let uniforms: Record<string, { value: any }> = {
+    let uniforms: Record<string, { value: unknown }> = {
       uTravelLength: { value: options.length },
       uColor: {
         value: new THREE.Color(isRoad ? options.colors.roadColor : options.colors.islandColor)
@@ -923,13 +937,13 @@ class App {
   renderPass!: RenderPass;
   bloomPass!: EffectPass;
   clock: THREE.Clock;
-  assets: Record<string, any>;
+  assets: AppAssets;
   disposed: boolean;
   road: Road;
   leftCarLights: CarLights;
   rightCarLights: CarLights;
   leftSticks: LightsSticks;
-  fogUniforms: Record<string, { value: any }>;
+  fogUniforms: Record<string, { value: unknown }>;
   fovTarget: number;
   speedUpTarget: number;
   speedUp: number;
@@ -1057,12 +1071,16 @@ class App {
       assets.smaa = {};
 
       searchImage.addEventListener('load', function () {
-        assets.smaa.search = this;
+        if (assets.smaa) {
+          assets.smaa.search = this;
+        }
         manager.itemEnd('smaa-search');
       });
 
       areaImage.addEventListener('load', function () {
-        assets.smaa.area = this;
+        if (assets.smaa) {
+          assets.smaa.area = this;
+        }
         manager.itemEnd('smaa-area');
       });
 
@@ -1217,12 +1235,13 @@ class App {
 }
 
 const Hyperspeed: FC<HyperspeedProps> = ({ effectOptions = {} }) => {
-  const mergedOptions: HyperspeedOptions = {
-    ...defaultOptions,
-    ...effectOptions
-  };
   const hyperspeed = useRef<HTMLDivElement>(null);
   const appRef = useRef<App | null>(null);
+
+  const mergedOptions: HyperspeedOptions = useMemo(() => ({
+    ...defaultOptions,
+    ...effectOptions
+  }), [effectOptions]);
 
   useEffect(() => {
     if (appRef.current) {
