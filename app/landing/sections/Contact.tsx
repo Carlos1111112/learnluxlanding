@@ -38,7 +38,7 @@ export default function Contact() {
       } else {
         setError(data.error || 'Failed to send message. Please try again.');
       }
-    } catch (err) {
+    } catch {
       setError('Network error. Please check your connection and try again.');
     } finally {
       setIsSubmitting(false);
@@ -70,7 +70,7 @@ export default function Contact() {
               Get in <span className="text-gradient">Touch</span>
             </h2>
             <p className="text-white/70 text-base sm:text-lg">
-              Have questions? We'd love to hear from you.
+              Have questions? We&apos;d love to hear from you.
             </p>
           </div>
 
@@ -174,7 +174,7 @@ export default function Contact() {
                 className="mt-6 p-4 rounded-xl bg-green-500/10 border border-green-500/20 text-center"
               >
                 <p className="text-green-400 font-medium">
-                  ✓ Thank you for your message! We'll get back to you soon.
+                  ✓ Thank you for your message! We&apos;ll get back to you soon.
                 </p>
               </motion.div>
             )}
